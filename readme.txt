@@ -13,5 +13,6 @@ A WordPress Plugin to convert video-html-tag into shortcode for WordPress API an
 
 == Other Notes ==
 = Acknowledgements =
+* Shortcode based on [jMediaelement](https://github.com/aFarkas/jMediaelement) by [Alexander Farkas](http://www.protofunc.com/)
 * The idea and requirements is from [meerblickzimmer](http://mein.meerblickzimmer.de/)
 * Thanks to [Toscho](http://toscho.de) and [derSchepp](http://twitter.com/#!/derschepp) for support in Regex
