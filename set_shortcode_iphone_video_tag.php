@@ -82,7 +82,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		public function __construct() {
 			
 			add_action( 'admin_init', array(&$this, 'text_domain') );
-			// on activation of the plugin add cap to roles
+			// on activation of the plugin
 			register_activation_hook( __FILE__, array(&$this, 'on_activate') );
 			
 			add_filter( 'wp_insert_post_data', array(&$this, 'set_post_video_shorttag'), 10, 2 );
@@ -118,7 +118,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		 * on activate plugin
 		 */
 		public function on_activate() {
-			global $wp_roles, $wp_version;
+			global $wp_version;
 			
 			// check wp version
 			if ( !version_compare( $wp_version, '3.0', '>=') ) {
@@ -185,49 +185,57 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		 */
 		public function shortcode_video($attr, $content) {
 			
-				$player_markup = '<div class="media-player">
-														<video poster="'.$attr['posterurl'].'" controls="controls">
-																<source src="'.$attr['filmurl'].'" type="video/mp4" />
-																<div class="fallback">
-																	<a class="source" href="'.$attr['filmurl'].'" type="video/mp4">
-																		<img src="'.$attr['posterurl'].'" alt="Tron Trailer" />
-																	</a>
-																</div> 
-														</video> 
-														<div class="media-state"></div> 
-														<div class="media-controls">
-																<div class="media-controls-box">
-																	<a class="play-pause btn" title="play / pause"><span class="ui-icon"> </span><span class="button-text">play / pause</span></a>
-																	<div class="media-bar">
-																		<div class="timeline-slider">
-																			<span class="handle-label">play position</span>
-																			<span class="ui-slider-handle" title="play position"></span>
-																			<div class="progressbar"></div>
-																		</div>
-																		<span class="time-display">
-																			<span class="current-time" title="current position">00:00</span> / <span class="duration" title="duration">00:00</span>
-																		</span>
-																		<div class="volume-slider"><span class="handle-label">volume control</span><span class="ui-slider-handle" title="volume control"></span></div>
-																		<a class="fullscreen btn" title="zoomin / zoomout"><span class="ui-icon"> </span><span class="button-text">zoomin / zoomout</span></a>
-																	</div>
-																</div>
-														</div>
-											</div>
-											<script>
-												if(location.protocol === "file:"){
-													$("")
-														.css({opacity: 0})
-														.insertAfter("div.media-player")
-														.fadeTo(1000, 1)
-														.delay(9000)
-														.fadeOut(1400, function(){
-																	$(this).remove();
-														})
-													;
-												}
-											</script>
-							';
-				
+			$player_markup = '
+				<div class="media-player">
+					<video poster="'.$attr['posterurl'].'" controls="controls">
+							<source src="'.$attr['filmurl'].'" type="video/mp4" />
+							<div class="fallback">
+								<a class="source" href="'.$attr['filmurl'].'" type="video/mp4">
+									<img src="'.$attr['posterurl'].'" alt="Tron Trailer" />
+								</a>
+							</div> 
+					</video> 
+					<div class="media-state"></div> 
+						<div class="media-controls">
+							<div class="media-controls-box">
+								<a class="play-pause btn" title="play / pause"><span class="ui-icon"> </span><span class="button-text">play / pause</span></a>
+								<div class="media-bar">
+									<div class="timeline-slider">
+										<span class="handle-label">play position</span>
+										<span class="ui-slider-handle" title="play position"></span>
+										<div class="progressbar"></div>
+									</div>
+									<span class="time-display">
+										<span class="current-time" title="current position">00:00</span> / <span class="duration" title="duration">00:00</span>
+									</span>
+									<div class="volume-slider">
+										<span class="handle-label">volume control</span>
+										<span class="ui-slider-handle" title="volume control">
+										</span>
+									</div>
+									<a class="fullscreen btn" title="zoomin / zoomout">
+										<span class="ui-icon"> </span><span class="button-text">zoomin / zoomout</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<script>
+						if(location.protocol === "file:"){
+							$("")
+								.css({opacity: 0})
+								.insertAfter("div.media-player")
+								.fadeTo(1000, 1)
+								.delay(9000)
+								.fadeOut(1400, function(){
+											$(this).remove();
+								})
+							;
+						}
+					</script>
+				</div>
+			';
+			
 			return $player_markup;
 		}
 	
