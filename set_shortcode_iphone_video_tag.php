@@ -10,11 +10,11 @@ Text Domain: SSIVT_TEXTDOMAIN
 Domain Path: /languages
 Description: Convert video-html-tag into shortcode for WordPress API and convert this for Frontend with a player
 Author: Frank B&uuml;ltge
-Version: 0.0.4
+Version: 0.0.5
 Author URI: http://bueltge.de/
 Donate URI: http://bueltge.de/wunschliste/
 License: GPL
-Last change: 02.03.2010 13:07:29
+Last change: 02.03.2010 21:07:29
 */ 
 /**
 License:
