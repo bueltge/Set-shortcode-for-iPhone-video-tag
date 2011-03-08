@@ -10,11 +10,11 @@ Text Domain: SSIVT_TEXTDOMAIN
 Domain Path: /languages
 Description: Convert video-html-tag into shortcode for WordPress API and convert this for Frontend with a player
 Author: Frank B&uuml;ltge
-Version: 0.0.5
+Version: 0.0.6
 Author URI: http://bueltge.de/
 Donate URI: http://bueltge.de/wunschliste/
 License: GPL
-Last change: 02.03.2010 21:07:29
+Last change: 08.03.2010 21:47:29
 */ 
 /**
 License:
@@ -241,11 +241,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 	
 	} // end class
 	
-	function set_shortcode_iphone_video_tag_start() {
-	
-		new SetShortcodeIphoneVideoTag();
-	}
-	add_action( 'plugins_loaded', 'set_shortcode_iphone_video_tag_start' );
+	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'set_shortcode_iphone_video_tag_start' );
 	
 }
 ?>
