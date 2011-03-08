@@ -37,35 +37,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Requirements:
 ==============================================================================
-This plugin requires WordPress >= 2.7 and tested with PHP Interpreter >= 5.2.9
+This plugin requires WordPress >= 3.0 and tested with PHP Interpreter >= 5.3.2
 */
 //avoid direct calls to this file, because now WP core and framework has been used
 if ( !function_exists('add_action') ) {
 	header('Status: 403 Forbidden');
 	header('HTTP/1.1 403 Forbidden');
 	exit();
-} elseif ( version_compare(phpversion(), '5.0.0', '<') ) {
-	$exit_msg = 'The plugin require PHP 5 or newer';
-	header('Status: 403 Forbidden');
-	header('HTTP/1.1 403 Forbidden');
-	exit($exit_msg);
 }
 
 if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
-	
-	//WordPress definitions
-	if ( !defined('WP_CONTENT_URL') )
-		define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
-	if ( !defined('WP_CONTENT_DIR') )
-		define('WP_CONTENT_DIR', ABSPATH . 'wp-content');
-	if ( !defined('WP_PLUGIN_URL') )
-		define('WP_PLUGIN_URL', WP_CONTENT_URL.'/plugins');
-	if ( !defined('WP_PLUGIN_DIR') )
-		define('WP_PLUGIN_DIR', WP_CONTENT_DIR.'/plugins');
-	if ( !defined('PLUGINDIR') )
-		define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
-	if ( !defined('WP_LANG_DIR') )
-		define('WP_LANG_DIR', WP_CONTENT_DIR . '/languages');
 	
 	class SetShortcodeIphoneVideoTag {
 		
@@ -75,6 +56,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		 * @var string
 		 */
 		protected $textdomain =  'SSIVT_TEXTDOMAIN';
+		
 		
 		/**
 		 * Constructor
@@ -88,6 +70,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 			add_filter( 'wp_insert_post_data', array(&$this, 'set_post_video_shorttag'), 10, 2 );
 			add_shortcode( 'video', array(&$this, 'shortcode_video') );
 		}
+		
 		
 		/**
 		 * Load language file for WPLANG
@@ -145,6 +128,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 			}
 		}
 		
+		
 		/**
 		 * parse content and replace tag to shortcode
 		 */
@@ -177,6 +161,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 			
 			return $data;
 		}
+		
 		
 		/**
 		 * Shortcode
@@ -241,7 +226,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 	
 	} // end class
 	
-	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'set_shortcode_iphone_video_tag_start' );
+	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'set_shortcode_iphone_video_tag_start' ) );
 	
-}
+} // end if class exists
 ?>
