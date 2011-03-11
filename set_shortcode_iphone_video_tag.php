@@ -40,18 +40,18 @@ Requirements:
 This plugin requires WordPress >= 2.7 and tested with PHP Interpreter >= 5.2.9
 */
 //avoid direct calls to this file, because now WP core and framework has been used
-if ( !function_exists('add_action') ) {
-	header('Status: 403 Forbidden');
-	header('HTTP/1.1 403 Forbidden');
+if ( !function_exists('add_action' ) ) {
+	header('Status: 403 Forbidden' );
+	header('HTTP/1.1 403 Forbidden' );
 	exit();
-} elseif ( version_compare(phpversion(), '5.0.0', '<') ) {
+} elseif ( version_compare(phpversion(), '5.0.0', '<' ) ) {
 	$exit_msg = 'The plugin require PHP 5 or newer';
-	header('Status: 403 Forbidden');
-	header('HTTP/1.1 403 Forbidden');
+	header('Status: 403 Forbidden' );
+	header('HTTP/1.1 403 Forbidden' );
 	exit($exit_msg);
 }
 
-if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
+if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 	
 	class SetShortcodeIphoneVideoTag {
 		
@@ -68,8 +68,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		 *
 		 * @return void
 		 */
-		public static function init()
-		{
+		public static function init() {
 			// If want to use another class (an extension maybe),
 			// change the class name here.
 			$class = __CLASS__ ;
@@ -86,12 +85,12 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		 */
 		public function __construct() {
 			
-			add_action( 'admin_init', array(&$this, 'text_domain') );
+			add_action( 'admin_init', array( &$this, 'text_domain' ) );
 			// on activation of the plugin
-			register_activation_hook( __FILE__, array(&$this, 'on_activate') );
+			register_activation_hook( __FILE__, array( &$this, 'on_activate' ) );
 			
-			add_filter( 'wp_insert_post_data', array(&$this, 'set_post_video_shorttag'), 10, 2 );
-			add_shortcode( 'video', array(&$this, 'shortcode_video') );
+			add_filter( 'wp_insert_post_data', array( &$this, 'set_post_video_shorttag' ), 10, 2 );
+			add_shortcode( 'video', array( &$this, 'shortcode_video' ) );
 		}
 		
 		
@@ -100,7 +99,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		 */
 		public function text_domain() {
 			
-			load_plugin_textdomain( $this->textdomain, false, dirname( plugin_basename(__FILE__) ) . '/languages' );
+			load_plugin_textdomain( $this->textdomain, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 		
 		/**
@@ -127,25 +126,25 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 			global $wp_version;
 			
 			// check wp version
-			if ( !version_compare( $wp_version, '3.0', '>=') ) {
-				deactivate_plugins(__FILE__);
+			if ( !version_compare( $wp_version, '3.0', '>=' ) ) {
+				deactivate_plugins( __FILE__ );
 				die( 
 					wp_sprintf( 
 						'<strong>%s:</strong> ' . 
-						__( 'Sorry, This plugin requires WordPress 3.0+', $this->textdomain )
-						, self::get_plugin_data('Name')
+						__( 'Sorry, This plugin requires WordPress 3.0+', $this->textdomain ), 
+						self::get_plugin_data('Name' )
 					)
 				);
 			}
 			
 			// check php version
-			if ( version_compare(PHP_VERSION, '5.0.0', '<') ) {
-				deactivate_plugins(__FILE__); // Deactivate ourself
+			if ( version_compare( PHP_VERSION, '5.0.0', '<' ) ) {
+				deactivate_plugins( __FILE__ ); // Deactivate ourself
 				die( 
 					wp_sprintf(
 						'<strong>%1s:</strong> ' . 
 						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', $this->textdomain )
-						, self::get_plugin_data('Name'), PHP_VERSION 
+						, self::get_plugin_data( 'Name' ), PHP_VERSION 
 					)
 				);
 			}
@@ -165,20 +164,20 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 			$filmurl = preg_replace('/^.*src="?([^\s"]+)"?.*$/ims', '$1', $data['post_content']);
 			$posterurl = preg_replace('/^.*img-url="?([^\s"]+)"?.*$/ims', '$1', $data['post_content']);
 			$data['post_content'] = '[video'.
-				($filmurl != '' && $filmurl != $data['post_content'] ? " filmurl='".$filmurl."'" : '')
+				($filmurl != '' && $filmurl != $data['post_content'] ? " filmurl='".$filmurl."'" : '' )
 				.($posterurl != '' && $posterurl != $data['post_content'] ? " posterurl='"
-				.$posterurl."'" : '')
+				.$posterurl."'" : '' )
 				.']';
 			 * */
 			// test string 2, also with '' and ""
 			//$ausgangswert = '<video src=\'http://20101121-131236.mov\' controls="controls" width="480" height="360" img-url=\'http://imagelink\'>Your browser does not support the video tag</video>';
-			$filmurl = preg_replace('/^.*src=["\']?([^\s"\']+)["\']?.*$/ims','$1',$data['post_content']);
-			$posterurl = preg_replace('/^.*img-url=["\']?([^\s"\']+)["\']?.*$/ims','$1',$data['post_content']);
+			$filmurl = preg_replace( '/^.*src=["\']?([^\s"\']+)["\']?.*$/ims', '$1', $data['post_content']);
+			$posterurl = preg_replace( '/^.*img-url=["\']?([^\s"\']+)["\']?.*$/ims', '$1', $data['post_content']);
 			$data['post_content'] = '[video'
-				.($filmurl != '' && $filmurl != $data['post_content'] ? " filmurl='".$filmurl."'" : '')
-				.($posterurl != '' && $posterurl != $data['post_content'] ? " posterurl='"
-				.$posterurl."'" : '')
-				.']';
+				. ($filmurl != '' && $filmurl != $data['post_content'] ? " filmurl='" . $filmurl . "'" : '' )
+				. ($posterurl != '' && $posterurl != $data['post_content'] ? " posterurl='"
+				. $posterurl . "'" : '' )
+				. ']';
 			
 			$data['post_content'] = addslashes( $data['post_content'] );
 			
@@ -191,7 +190,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		 *
 		 * @author Marcus Zeeh
 		 */
-		public function shortcode_video($attr, $content) {
+		public function shortcode_video( $attr, $content ) {
 			
 			$player_markup = '
 				<div class="media-player">
