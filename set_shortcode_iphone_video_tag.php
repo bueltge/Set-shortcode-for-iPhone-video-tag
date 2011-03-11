@@ -10,11 +10,11 @@ Text Domain: SSIVT_TEXTDOMAIN
 Domain Path: /languages
 Description: Convert video-html-tag into shortcode for WordPress API and convert this for Frontend with a player
 Author: Frank B&uuml;ltge
-Version: 0.0.6
+Version: 0.0.7
 Author URI: http://bueltge.de/
 Donate URI: http://bueltge.de/wunschliste/
 License: GPL
-Last change: 08.03.2010 21:47:29
+Last change: 11.03.2010 22:47:29
 */ 
 /**
 License:
@@ -37,13 +37,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Requirements:
 ==============================================================================
-This plugin requires WordPress >= 3.0 and tested with PHP Interpreter >= 5.3.2
+This plugin requires WordPress >= 2.7 and tested with PHP Interpreter >= 5.2.9
 */
 //avoid direct calls to this file, because now WP core and framework has been used
 if ( !function_exists('add_action') ) {
 	header('Status: 403 Forbidden');
 	header('HTTP/1.1 403 Forbidden');
 	exit();
+} elseif ( version_compare(phpversion(), '5.0.0', '<') ) {
+	$exit_msg = 'The plugin require PHP 5 or newer';
+	header('Status: 403 Forbidden');
+	header('HTTP/1.1 403 Forbidden');
+	exit($exit_msg);
 }
 
 if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
@@ -56,6 +61,24 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 		 * @var string
 		 */
 		protected $textdomain =  'SSIVT_TEXTDOMAIN';
+		
+		
+		/**
+		 * Handler for the action 'init'. Instantiates this class.
+		 *
+		 * @return void
+		 */
+		public static function init()
+		{
+			// If want to use another class (an extension maybe),
+			// change the class name here.
+			$class = __CLASS__ ;
+	
+			// Named global variable to make access for other scripts easier.
+			if ( empty ( $GLOBALS[ $class ] ) ) {
+				$GLOBALS[ $class ] = new $class;
+			}
+		}
 		
 		
 		/**
@@ -226,7 +249,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag') ) {
 	
 	} // end class
 	
-	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'set_shortcode_iphone_video_tag_start' ) );
+	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'init' ) );
 	
 } // end if class exists
 ?>
