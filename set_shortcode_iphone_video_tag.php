@@ -49,7 +49,6 @@ if ( !function_exists('add_action' ) ) {
 if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 	
 	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'getobj' ) );
-	// on activation of the plugin
 	register_activation_hook( __FILE__, array( 'SetShortcodeIphoneVideoTag', 'on_activate' ) );
 	
 	class SetShortcodeIphoneVideoTag {
@@ -62,7 +61,6 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * @var string
 		 */
 		public $textdomain = 'plugin-set-shortcode-iphone-video-tag';
-		
 		
 		/**
 		 * Constructor
@@ -77,12 +75,17 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 			add_shortcode( 'video', array( &$this, 'shortcode_video' ) );
 		}
 		
-		
+		/**
+		 * Handler for the action 'init'. Instantiates this class.
+		 *
+		 * @return void
+		 * @since 0.0.6
+		 */
 		public function getobj() {
-			if ( false === self::$classobj ) {
+			if ( null === self::$classobj ) {
 				self::$classobj = new self;
 			}
-			
+
 			return self::$classobj;
 		}
 		
@@ -94,9 +97,15 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		public function loadtextdomain() {
 			
-			$obj = SetShortcodeIphoneVideoTag::getobj();
-			load_plugin_textdomain( $obj->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( $this->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
+		
+		
+		public function get_textdomain() {
+			
+			return $this->textdomain;
+		}
+		
 		
 		/**
 		 * return plugin comment data
@@ -123,17 +132,18 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		static public function on_activate() {
 			
-			self::loadtextdomain();
+			$obj = SetShortcodeIphoneVideoTag::getobj();
+			$obj->loadtextdomain();
 			
 			global $wp_version;
 			
 			// check wp version
-			if ( !version_compare( $wp_version, '3.0', '>=' ) ) {
+			if ( !version_compare( $wp_version, '4.0', '>=' ) ) {
 				deactivate_plugins( __FILE__ );
 				die( 
 					wp_sprintf( 
 						'<strong>%s:</strong> ' . 
-						__( 'Sorry, This plugin requires WordPress 3.0+', self::textdomain ), 
+						__( 'Sorry, This plugin requires WordPress 3.0+', $this->textdomain ), 
 						self::get_plugin_data('Name' )
 					)
 				);
@@ -145,7 +155,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 				die( 
 					wp_sprintf(
 						'<strong>%1s:</strong> ' . 
-						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', self::textdomain )
+						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', $this->textdomain )
 						, self::get_plugin_data( 'Name' ), PHP_VERSION 
 					)
 				);
