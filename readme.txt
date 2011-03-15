@@ -1,10 +1,10 @@
 === Set shortcode for iPhone video-tag ===
 Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
-Tags: 
+Tags: iphone, video, shortcode, content
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 0.0.7
+Stable tag: 0.0.8
 
 Convert video-html-tag into shortcode for WordPress API and convert this for Frontend with a player
 
