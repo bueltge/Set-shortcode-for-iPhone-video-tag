@@ -10,11 +10,11 @@ Text Domain: SSIVT_TEXTDOMAIN
 Domain Path: /languages
 Description: Convert video-html-tag into shortcode for WordPress API and convert this for Frontend with a player
 Author: Frank B&uuml;ltge
-Version: 0.0.7
+Version: 0.0.8
 Author URI: http://bueltge.de/
 Donate URI: http://bueltge.de/wunschliste/
 License: GPL
-Last change: 11.03.2010 22:47:29
+Last change: 15.03.2010 08:47:29
 */ 
 /**
 License:
@@ -44,11 +44,6 @@ if ( !function_exists('add_action' ) ) {
 	header('Status: 403 Forbidden' );
 	header('HTTP/1.1 403 Forbidden' );
 	exit();
-} elseif ( version_compare(phpversion(), '5.0.0', '<' ) ) {
-	$exit_msg = 'The plugin require PHP 5 or newer';
-	header('Status: 403 Forbidden' );
-	header('HTTP/1.1 403 Forbidden' );
-	exit($exit_msg);
 }
 
 if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
@@ -169,6 +164,8 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 				.$posterurl."'" : '' )
 				.']';
 			 * */
+			
+			/*
 			// test string 2, also with '' and ""
 			//$ausgangswert = '<video src=\'http://20101121-131236.mov\' controls="controls" width="480" height="360" img-url=\'http://imagelink\'>Your browser does not support the video tag</video>';
 			$filmurl = preg_replace( '/^.*src=["\']?([^\s"\']+)["\']?.*$/ims', '$1', $data['post_content']);
@@ -178,6 +175,22 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 				. ($posterurl != '' && $posterurl != $data['post_content'] ? " posterurl='"
 				. $posterurl . "'" : '' )
 				. ']';
+			*/
+			
+			preg_match_all( 
+				'/<video[^>]+>.*?<\/video>/ims'
+				, $data['post_content']
+				, $videotags
+				, PREG_PATTERN_ORDER 
+			);
+			foreach($videotags as $videotag) {
+				if ( isset($videotag[0]) ) {
+					$filmurl = preg_replace('/^.*src=["\']?([^\s"\']+)["\']?.*$/ims', '$1', $videotag[0]);
+					$posterurl = preg_replace('/^.*img-url=["\']?([^\s"\']+)["\']?.*$/ims', '$1', $videotag[0]);
+					$videoshortcode = '[video' . ($filmurl != '' && $filmurl != $videotag[0] ? " filmurl='" . $filmurl . "'" : '') . ($posterurl != '' && $posterurl != $videotag[0] ? " posterurl='" . $posterurl . "'" : '') . ']';
+					$data['post_content'] = str_replace( $videotag, $videoshortcode, $data['post_content']);
+				}
+			}
 			
 			$data['post_content'] = addslashes( $data['post_content'] );
 			
