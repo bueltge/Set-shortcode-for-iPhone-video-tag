@@ -97,7 +97,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		public function loadtextdomain() {
 			
-			load_plugin_textdomain( $this->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( $this->get_textdomain(), FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 		
 		/**
@@ -139,7 +139,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 			global $wp_version;
 			
 			// check wp version
-			if ( !version_compare( $wp_version, '4.0', '>=' ) ) {
+			if ( !version_compare( $wp_version, '3.0', '>=' ) ) {
 				deactivate_plugins( __FILE__ );
 				die( 
 					wp_sprintf( 
