@@ -54,12 +54,14 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 	
 	class SetShortcodeIphoneVideoTag {
 		
+		static private $classobj;
+		
 		/*
 		 * Key for textdomain
 		 * 
 		 * @var string
 		 */
-		static $textdomain = 'plugin-set-shortcode-iphone-video-tag';
+		public $textdomain = 'plugin-set-shortcode-iphone-video-tag';
 		
 		
 		/**
@@ -69,16 +71,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * @since 0.0.6
 		 */
 		public static function init() {
-			// If want to use another class (an extension maybe),
-			// change the class name here.
-			/*
-			$class = __CLASS__ ;
-	
-			// Named global variable to make access for other scripts easier.
-			if ( empty ( $GLOBALS[ $class ] ) ) {
-				$GLOBALS[ $class ] = new $class;
-			}
-			*/
+			
 			new self;
 		}
 		
@@ -97,6 +90,15 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		}
 		
 		
+		public function getobj() {
+			if ( false === self::$classobj ) {
+				self::$classobj = new self;
+			}
+			
+			return self::$classobj;
+		}
+		
+		
 		/**
 		 * Load language file for WPLANG
 		 * 
@@ -104,7 +106,9 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		public function loadtextdomain() {
 			
-			load_plugin_textdomain( &$this->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			$obj = SetShortcodeIphoneVideoTag::getobj();
+			var_dump($obj);
+			load_plugin_textdomain( $obj->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 		
 		/**
