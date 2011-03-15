@@ -48,6 +48,10 @@ if ( !function_exists('add_action' ) ) {
 
 if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 	
+	add_action( 'init', array( 'SetShortcodeIphoneVideoTag', 'init' ) );
+	// on activation of the plugin
+	register_activation_hook( __FILE__, array( 'SetShortcodeIphoneVideoTag', 'on_activate' ) );
+	
 	class SetShortcodeIphoneVideoTag {
 		
 		/*
@@ -83,7 +87,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		public function __construct() {
 			
-			$this->text_domain();
+			$this->loadtextdomain();
 			
 			add_filter( 'wp_insert_post_data', array( &$this, 'set_post_video_shorttag' ), 10, 2 );
 			add_shortcode( 'video', array( &$this, 'shortcode_video' ) );
@@ -97,7 +101,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		public function text_domain() {
 			
-			load_plugin_textdomain( &$this->textdomain, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( &$this->loadtextdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 		
 		/**
@@ -123,14 +127,14 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * 
 		 * @since 0.0.5
 		 */
-		public function on_activate() {
+		static public function on_activate() {
 			
-			self::text_domain();
+			self::loadtextdomain();
 			
 			global $wp_version;
 			
 			// check wp version
-			if ( !version_compare( $wp_version, '43.0', '>=' ) ) {
+			if ( !version_compare( $wp_version, '3.0', '>=' ) ) {
 				deactivate_plugins( __FILE__ );
 				die( 
 					wp_sprintf( 
@@ -274,10 +278,6 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		}
 	
 	} // end class
-	
-	// on activation of the plugin
-	register_activation_hook( __FILE__, array( 'SetShortcodeIphoneVideoTag', 'on_activate' ) );
-	add_action( 'init', array( 'SetShortcodeIphoneVideoTag', 'init' ) );
 	
 } // end if class exists
 ?>
