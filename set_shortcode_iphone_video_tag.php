@@ -99,9 +99,9 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * 
 		 * @since 0.0.1
 		 */
-		public function text_domain() {
+		public function loadtextdomain() {
 			
-			load_plugin_textdomain( &$this->loadtextdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( &$this->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 		
 		/**
