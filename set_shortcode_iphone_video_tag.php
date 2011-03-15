@@ -55,7 +55,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * 
 		 * @var string
 		 */
-		static $textdomain =  'plugin-set-shortcode-iphone-video-tag';
+		static $textdomain = 'plugin-set-shortcode-iphone-video-tag';
 		
 		
 		/**
@@ -83,9 +83,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		public function __construct() {
 			
-			add_action( 'admin_init', array( &$this, 'text_domain' ) );
-			// on activation of the plugin
-			register_activation_hook( __FILE__, array( &$this, 'on_activate' ) );
+			$this->text_domain();
 			
 			add_filter( 'wp_insert_post_data', array( &$this, 'set_post_video_shorttag' ), 10, 2 );
 			add_shortcode( 'video', array( &$this, 'shortcode_video' ) );
@@ -126,15 +124,18 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * @since 0.0.5
 		 */
 		public function on_activate() {
+			
+			self::text_domain();
+			
 			global $wp_version;
 			
 			// check wp version
-			if ( !version_compare( $wp_version, '3.0', '>=' ) ) {
+			if ( !version_compare( $wp_version, '43.0', '>=' ) ) {
 				deactivate_plugins( __FILE__ );
 				die( 
 					wp_sprintf( 
 						'<strong>%s:</strong> ' . 
-						__( 'Sorry, This plugin requires WordPress 3.0+', $this->textdomain ), 
+						__( 'Sorry, This plugin requires WordPress 3.0+', self::textdomain ), 
 						self::get_plugin_data('Name' )
 					)
 				);
@@ -146,7 +147,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 				die( 
 					wp_sprintf(
 						'<strong>%1s:</strong> ' . 
-						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', $this->textdomain )
+						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', self::textdomain )
 						, self::get_plugin_data( 'Name' ), PHP_VERSION 
 					)
 				);
@@ -274,7 +275,9 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 	
 	} // end class
 	
-	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'init' ) );
+	// on activation of the plugin
+	register_activation_hook( __FILE__, array( 'SetShortcodeIphoneVideoTag', 'on_activate' ) );
+	add_action( 'init', array( 'SetShortcodeIphoneVideoTag', 'init' ) );
 	
 } // end if class exists
 ?>
