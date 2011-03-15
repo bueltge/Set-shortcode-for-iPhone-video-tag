@@ -143,7 +143,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 				die( 
 					wp_sprintf( 
 						'<strong>%s:</strong> ' . 
-						__( 'Sorry, This plugin requires WordPress 3.0+', $this->textdomain ), 
+						__( 'Sorry, This plugin requires WordPress 3.0+', $obj->get_textdomain() ), 
 						self::get_plugin_data('Name' )
 					)
 				);
@@ -155,7 +155,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 				die( 
 					wp_sprintf(
 						'<strong>%1s:</strong> ' . 
-						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', $this->textdomain )
+						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', $obj->get_textdomain() )
 						, self::get_plugin_data( 'Name' ), PHP_VERSION 
 					)
 				);
