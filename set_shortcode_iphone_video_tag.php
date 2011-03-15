@@ -121,9 +121,8 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		private function get_plugin_data( $value = 'Version' ) {
 			
 			$plugin_data = get_plugin_data( __FILE__ );
-			$plugin_value = $plugin_data[$value];
 			
-			return $plugin_value;
+			return $plugin_data[$value];
 		}
 		
 		
