@@ -48,7 +48,7 @@ if ( !function_exists('add_action' ) ) {
 
 if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 	
-	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'init' ) );
+	add_action( 'plugins_loaded', 		array( 'SetShortcodeIphoneVideoTag', 'getobj' ) );
 	// on activation of the plugin
 	register_activation_hook( __FILE__, array( 'SetShortcodeIphoneVideoTag', 'on_activate' ) );
 	
@@ -63,19 +63,6 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		public $textdomain = 'plugin-set-shortcode-iphone-video-tag';
 		
-		
-		/**
-		 * Handler for the action 'init'. Instantiates this class.
-		 *
-		 * @return void
-		 * @since 0.0.6
-		 */
-		public static function init() {
-			
-			new self;
-		}
-		
-		
 		/**
 		 * Constructor
 		 * 
@@ -89,12 +76,17 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 			add_shortcode( 'video', array( &$this, 'shortcode_video' ) );
 		}
 		
-		
+		/**
+		 * Handler for the action 'init'. Instantiates this class.
+		 *
+		 * @return void
+		 * @since 0.0.6
+		 */
 		public function getobj() {
-			if ( false === self::$classobj ) {
+			if ( null === self::$classobj ) {
 				self::$classobj = new self;
 			}
-			
+
 			return self::$classobj;
 		}
 		
@@ -106,9 +98,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		public function loadtextdomain() {
 			
-			$obj = SetShortcodeIphoneVideoTag::getobj();
-			var_dump($obj);
-			load_plugin_textdomain( $obj->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( $this->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 		
 		/**
@@ -136,7 +126,8 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 */
 		static public function on_activate() {
 			
-			self::loadtextdomain();
+			$obj = SetShortcodeIphoneVideoTag::getobj();
+			$obj -> loadtextdomain();
 			
 			global $wp_version;
 			
