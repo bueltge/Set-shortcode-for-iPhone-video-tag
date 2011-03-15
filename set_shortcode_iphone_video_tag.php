@@ -48,7 +48,7 @@ if ( !function_exists('add_action' ) ) {
 
 if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 	
-	add_action( 'init', array( 'SetShortcodeIphoneVideoTag', 'init' ) );
+	add_action( 'plugins_loaded', array( 'SetShortcodeIphoneVideoTag', 'init' ) );
 	// on activation of the plugin
 	register_activation_hook( __FILE__, array( 'SetShortcodeIphoneVideoTag', 'on_activate' ) );
 	
@@ -71,12 +71,15 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		public static function init() {
 			// If want to use another class (an extension maybe),
 			// change the class name here.
+			/*
 			$class = __CLASS__ ;
 	
 			// Named global variable to make access for other scripts easier.
 			if ( empty ( $GLOBALS[ $class ] ) ) {
 				$GLOBALS[ $class ] = new $class;
 			}
+			*/
+			new self;
 		}
 		
 		
