@@ -100,7 +100,9 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 			load_plugin_textdomain( $this->textdomain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 		
-		
+		/**
+		 * return var textdomain
+		 */
 		public function get_textdomain() {
 			
 			return $this->textdomain;
@@ -144,7 +146,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 					wp_sprintf( 
 						'<strong>%s:</strong> ' . 
 						__( 'Sorry, This plugin requires WordPress 3.0+', $obj->get_textdomain() ), 
-						self::get_plugin_data('Name' )
+						self::get_plugin_data( 'Name' )
 					)
 				);
 			}
