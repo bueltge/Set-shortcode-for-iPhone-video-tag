@@ -6,7 +6,7 @@
 /*
 Plugin Name: Set shortcode for iPhone video-tag
 Plugin URI: http://bueltge.de/
-Text Domain: SSIVT_TEXTDOMAIN
+Text Domain: plugin-set-shortcode-iphone-video-tag
 Domain Path: /languages
 Description: Convert video-html-tag into shortcode for WordPress API and convert this for Frontend with a player
 Author: Frank B&uuml;ltge
@@ -55,13 +55,14 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * 
 		 * @var string
 		 */
-		protected $textdomain =  'SSIVT_TEXTDOMAIN';
+		static $textdomain =  'plugin-set-shortcode-iphone-video-tag';
 		
 		
 		/**
 		 * Handler for the action 'init'. Instantiates this class.
 		 *
 		 * @return void
+		 * @since 0.0.6
 		 */
 		public static function init() {
 			// If want to use another class (an extension maybe),
@@ -77,6 +78,8 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		
 		/**
 		 * Constructor
+		 * 
+		 * @since 0.0.1
 		 */
 		public function __construct() {
 			
@@ -91,18 +94,21 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		
 		/**
 		 * Load language file for WPLANG
+		 * 
+		 * @since 0.0.1
 		 */
 		public function text_domain() {
 			
-			load_plugin_textdomain( $this->textdomain, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( &$this->textdomain, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 		
 		/**
 		 * return plugin comment data
 		 * 
-		 * @since 1.2.1
+		 * @since 0.0.5
 		 * @param $value string, default = 'Version'
-		 *        Name, PluginURI, Version, Description, Author, AuthorURI, TextDomain, DomainPath, Network, Title
+		 *         Name, PluginURI, Version, Description, Author, 
+		 *         AuthorURI, TextDomain, DomainPath, Network, Title
 		 * @return string
 		 */
 		private function get_plugin_data( $value = 'Version' ) {
@@ -116,6 +122,8 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		
 		/**
 		 * on activate plugin
+		 * 
+		 * @since 0.0.5
 		 */
 		public function on_activate() {
 			global $wp_version;
@@ -151,6 +159,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * 
 		 * @param unknown_type $data
 		 * @param unknown_type $postarr
+		 * @since 0.0.1
 		 */
 		public function set_post_video_shorttag($data, $postarr) {
 			
@@ -166,7 +175,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 				.($posterurl != '' && $posterurl != $data['post_content'] ? " posterurl='"
 				.$posterurl."'" : '' )
 				.']';
-			 * */
+			*/
 			
 			/*
 			// test string 2, also with '' and ""
@@ -205,6 +214,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		 * Shortcode
 		 *
 		 * @author Marcus Zeeh
+		 * @since 0.0.1
 		 */
 		public function shortcode_video( $attr, $content ) {
 			
