@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Requirements:
 ==============================================================================
-This plugin requires WordPress >= 2.7 and tested with PHP Interpreter >= 5.2.9
+This plugin requires WordPress >= 3.0 and tested with PHP Interpreter >= 5.2.9
 */
 //avoid direct calls to this file, because now WP core and framework has been used
 if ( !function_exists('add_action' ) ) {
@@ -133,7 +133,7 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 			}
 			
 			// check php version
-			if ( version_compare( PHP_VERSION, '5.0.0', '<' ) ) {
+			if ( !version_compare( PHP_VERSION, '5.2.0', '>=' ) ) {
 				deactivate_plugins( __FILE__ ); // Deactivate ourself
 				die( 
 					wp_sprintf(
@@ -148,6 +148,9 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 		
 		/**
 		 * parse content and replace tag to shortcode
+		 * 
+		 * @param unknown_type $data
+		 * @param unknown_type $postarr
 		 */
 		public function set_post_video_shorttag($data, $postarr) {
 			
@@ -207,11 +210,11 @@ if ( !class_exists('SetShortcodeIphoneVideoTag' ) ) {
 			
 			$player_markup = '
 				<div class="media-player">
-					<video poster="'.$attr['posterurl'].'" controls="controls">
-							<source src="'.$attr['filmurl'].'" type="video/mp4" />
+					<video poster="' . $attr['posterurl'] . '" controls="controls">
+							<source src="' . $attr['filmurl'] . '" type="video/mp4" />
 							<div class="fallback">
-								<a class="source" href="'.$attr['filmurl'].'" type="video/mp4">
-									<img src="'.$attr['posterurl'].'" alt="Tron Trailer" />
+								<a class="source" href="' . $attr['filmurl'] . '" type="video/mp4">
+									<img src="' . $attr['posterurl'] . '" alt="Tron Trailer" />
 								</a>
 							</div> 
 					</video> 
